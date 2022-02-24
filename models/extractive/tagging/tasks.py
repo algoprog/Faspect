@@ -2,7 +2,7 @@ import logging
 import os
 
 from typing import List, TextIO, Union
-from tagging_model.utils_token_classification import InputExample, Split, TokenClassificationTask
+from models.extractive.tagging.utils_token_classification import InputExample, Split, TokenClassificationTask
 
 logger = logging.getLogger(__name__)
 

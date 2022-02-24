@@ -38,8 +38,8 @@ from packaging import version
 from transformers.trainer_utils import TrainOutput
 
 #from facet_extractor_tagging import SupervisedExtractiveFacetExtractor
-from tagging_model.utils_token_classification import Split, TokenClassificationDataset, TokenClassificationTask
 
+from models.extractive.tagging.utils_token_classification import Split, TokenClassificationDataset, TokenClassificationTask
 
 try:
     from torch.utils.tensorboard import SummaryWriter

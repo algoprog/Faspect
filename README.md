@@ -8,6 +8,13 @@ Faspect is a library with various model implementations for open domain query fa
 pip install -r requirements.txt
 ```
 
+Install nltk libraries
+```python
+import nltk
+nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
+```
+
 # Usage
 
 Run faspect.py and use the API to extract facets, for example you can post json data in this format to `127.0.0.1:6000/extract`:
