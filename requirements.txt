@@ -5,7 +5,7 @@ Flask==2.0.1
 syntok==1.3.1
 filelock==3.0.12
 nltk==3.6.2
-sentence_transformers==0.2.2
+sentence_transformers==2.2.0
 simpletransformers==0.62.4
 seqeval==1.2.2
 numpy==1.21.2
