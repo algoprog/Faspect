@@ -1,5 +1,6 @@
 import json
 import logging
+import torch
 
 from flask import Flask, request
 from flask_cors import CORS
@@ -36,7 +37,7 @@ class SupervisedFacetExtractorSeq2seq:
             encoder_decoder_type="bart",
             encoder_decoder_name=model_name,
             args=model_args,
-            use_cuda=True
+            use_cuda=torch.cuda.is_available()
         )
 
         self.only_query = only_query
