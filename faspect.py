@@ -9,6 +9,7 @@ from models.ranking import FacetDiversifier
 from models.extractive.unsupervised.unsupervised import UnsupervisedFacetExtractor
 from models.abstractive.seq2seq import SupervisedFacetExtractorSeq2seq
 from models.extractive.tagging.tagging import SupervisedFacetExtractorTagging
+from models.classification.facet_classification import FacetClassifier
 
 
 def roundrobin(*iterables):
@@ -44,6 +45,9 @@ class Faspect:
         self.abstractive_extractor = SupervisedFacetExtractorSeq2seq(model_name="algoprog/mimics-bart-base")
         self.abstractive_query_extractor = SupervisedFacetExtractorSeq2seq(model_name="algoprog/mimics-query-bart-base")
         self.extractive_extractor = SupervisedFacetExtractorTagging(model_name="algoprog/mimics-tagging-roberta-base")
+        self.classifier = FacetClassifier(model_name="algoprog/mimics-multilabel-roberta-base-787",
+                                          labels_path="models/classification/facets.json")
+
         self.ranker = FacetDiversifier(model_name="algoprog/mimics-query-facet-encoder-mpnet-base")
         self.unsupervised_extractor = UnsupervisedFacetExtractor()
 
@@ -52,27 +56,39 @@ class Faspect:
         self.app = Flask(__name__)
         CORS(self.app)
 
-    def extract_facets(self, query, docs, aggregation="round-robin", lamda=0.5):
+    def extract_facets(self, query, docs,
+                       aggregation="round-robin",
+                       mmr_lambda=0.5,
+                       classification_threshold=0.05,
+                       classification_topk=0):
         """
         Extracts facets for a given query and documents
         :param query: 
         :param docs: a list of documents
         :param aggregation: "round-robin", "mmr" or "rank"
-        :param lamda: the parameter used by mmr (relevance weight)
-        :return: 
+        :param mmr_lambda: the parameter used by mmr (relevance weight)
+        :param classification_topk: the topk classes returned by the multi-label model
+        :param classification_threshold: instead of topk classes, return classes based on a threshold
+        :return: list of facet terms
+
         """
         facets_abstractive = self.abstractive_extractor.extract(batch_queries=query, batch_snippets=docs)
         facets_abstractive_query = self.abstractive_query_extractor.extract(batch_queries=query, batch_snippets=docs)
         facets_extractive = self.extractive_extractor.extract(batch_queries=query, batch_snippets=docs)
+        facets_classifier = self.classifier.predict(query=query,
+                                                    documents=docs,
+                                                    threshold=classification_threshold,
+                                                    topk=classification_topk)
         facets_unsupervised = self.unsupervised_extractor.extract(batch_queries=query, batch_snippets=docs, limit=20)
 
         facets = list(roundrobin(facets_abstractive,
                                  facets_abstractive_query,
                                  facets_extractive,
+                                 facets_classifier,
                                  facets_unsupervised))
 
         if aggregation == "mmr":
-            facets = self.ranker.maximal_marginal_relevance(query, facets, lamda=lamda)
+            facets = self.ranker.maximal_marginal_relevance(query, facets, lamda=mmr_lambda)
         elif aggregation == "rank":
             facets = self.ranker.maximal_marginal_relevance(query, facets, lamda=1.0)
 
