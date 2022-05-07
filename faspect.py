@@ -47,9 +47,9 @@ class Faspect:
         self.extractive_extractor = SupervisedFacetExtractorTagging(model_name="algoprog/mimics-tagging-roberta-base")
         self.classifier = FacetClassifier(model_name="algoprog/mimics-multilabel-roberta-base-787",
                                           labels_path="models/classification/facets.json")
+        self.unsupervised_extractor = UnsupervisedFacetExtractor()
 
         self.ranker = FacetDiversifier(model_name="algoprog/mimics-query-facet-encoder-mpnet-base")
-        self.unsupervised_extractor = UnsupervisedFacetExtractor()
 
         logging.info("Finished loading.")
 
