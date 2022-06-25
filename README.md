@@ -8,11 +8,9 @@ Faspect is a library with various model implementations for open domain query fa
 pip install -r requirements.txt
 ```
 
-Install nltk libraries
-```python
-import nltk
-nltk.download('stopwords')
-nltk.download('averaged_perceptron_tagger')
+Install the required nltk packages
+```
+python -m nltk.downloader stopwords averaged_perceptron_tagger
 ```
 
 # Usage
