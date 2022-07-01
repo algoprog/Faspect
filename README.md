@@ -1,6 +1,6 @@
 # Faspect
  
-Faspect is a library with various model implementations for open domain query facet extraction and generation. For more details you can have a look at our ICTIR 2022 paper: [Revisiting Open Domain Query Facet Extraction and Generation](https://github.com/algoprog/Faspect).
+Faspect is a library with various model implementations for open domain query facet extraction and generation. For more details you can have a look at our ICTIR 2022 paper: [Revisiting Open Domain Query Facet Extraction and Generation](https://ciir-publications.cs.umass.edu/pub/web/getpdf.php?id=1455).
 
 # Installation
 
@@ -40,7 +40,7 @@ or use the classes from the *models* folder in your project.
 
 # Citation
 
-If you use any part of this code, including model weights, please cite our [paper](https://github.com/algoprog/Faspect):
+If you use any part of this code, including model weights, please cite our [paper](https://ciir-publications.cs.umass.edu/pub/web/getpdf.php?id=1455):
 
 ```
 @article{Samarinas_2022_Faspect,
