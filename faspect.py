@@ -36,7 +36,7 @@ def remove_duplicates(items):
     return added_list
 
 
-class Faspect:
+class FaspectExtractor:
     def __init__(self):
         logging.getLogger().setLevel(logging.INFO)
 
@@ -111,5 +111,5 @@ class Faspect:
 
 
 if __name__ == "__main__":
-    extractor = Faspect()
+    extractor = FaspectExtractor()
     extractor.serve(port=6000)
