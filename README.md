@@ -1,4 +1,5 @@
 # Faspect
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1IVaxmq574aaPqEIlUiE0d-OPxsjXZyjX?usp=sharing)
  
 Faspect is a library with various model implementations for open domain query facet extraction and generation. For more details you can have a look at our ICTIR 2022 paper: [Revisiting Open Domain Query Facet Extraction and Generation](https://ciir-publications.cs.umass.edu/pub/web/getpdf.php?id=1455).
 
