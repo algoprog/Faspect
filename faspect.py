@@ -79,7 +79,7 @@ class FaspectExtractor:
                                                     documents=docs,
                                                     threshold=classification_threshold,
                                                     topk=classification_topk)
-        facets_unsupervised = self.unsupervised_extractor.extract(batch_queries=query, batch_snippets=docs, limit=20)
+        facets_unsupervised = [] #self.unsupervised_extractor.extract(batch_queries=query, batch_snippets=docs, limit=20)
 
         facets = list(roundrobin(facets_abstractive,
                                  facets_abstractive_query,
