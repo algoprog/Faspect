@@ -14,6 +14,8 @@ Install the required nltk packages
 python -m nltk.downloader stopwords averaged_perceptron_tagger
 ```
 
+You can also try an online demo on [Colab](https://colab.research.google.com/drive/1IVaxmq574aaPqEIlUiE0d-OPxsjXZyjX?usp=sharing) before running locally.
+
 # Usage
 
 Run faspect.py and use the API to extract facets, for example you can post json data in this format to `127.0.0.1:6000/extract`:
