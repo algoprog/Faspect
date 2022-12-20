@@ -1,6 +1,7 @@
 # Faspect
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1IVaxmq574aaPqEIlUiE0d-OPxsjXZyjX?usp=sharing)
  
-Faspect is a library with various model implementations for open domain query facet extraction and generation.
+Faspect is a library with various model implementations for open domain query facet extraction and generation. For more details you can have a look at our ICTIR 2022 paper: [Revisiting Open Domain Query Facet Extraction and Generation](https://ciir-publications.cs.umass.edu/pub/web/getpdf.php?id=1455).
 
 # Installation
 
@@ -8,12 +9,12 @@ Faspect is a library with various model implementations for open domain query fa
 pip install -r requirements.txt
 ```
 
-Install nltk libraries
-```python
-import nltk
-nltk.download('stopwords')
-nltk.download('averaged_perceptron_tagger')
+Install the required nltk packages
 ```
+python -m nltk.downloader stopwords averaged_perceptron_tagger
+```
+
+You can also try an online demo on [Colab](https://colab.research.google.com/drive/1IVaxmq574aaPqEIlUiE0d-OPxsjXZyjX?usp=sharing) before running locally.
 
 # Usage
 
@@ -39,3 +40,18 @@ and get results:
 ```
 
 or use the classes from the *models* folder in your project.
+
+# Citation
+
+If you use any part of this code, including model weights, please cite our [paper](https://ciir-publications.cs.umass.edu/pub/web/getpdf.php?id=1455):
+
+```
+@article{Samarinas_2022_Faspect,
+  title   =  {Revisiting Open Domain Query Facet Extraction and Generation},
+  author  =  {Chris Samarinas and Arkin Dharawat and Hamed Zamani},
+  journal =  {Proceedings of the 2022 ACM SIGIR International Conference on Theory of Information Retrieval},
+  year    =  {2022}
+}
+```
+
+For any problems or suggestions, feel free to open an issue or contact [Chris Samarinas](mailto:chris.samarinas@gmail.com).
