@@ -16,3 +16,4 @@ beautifulsoup4==4.10.0
 scikit_learn==1.0.2
 tensorboardX==2.5
 lxml==4.8.0
+bert-score==0.3.12
