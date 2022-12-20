@@ -39,7 +39,7 @@ and get results:
 }
 ```
 
-or use the classes from the *models* folder in your project.
+or use the classes from the *models* folder in your project. For evaluation of your own models, please use the metric implementations in `evaluation.py`.
 
 # Citation
 
