@@ -8,13 +8,13 @@ import transformers
 from torch.utils.data import DataLoader
 from transformers import AutoConfig, AutoModel, AutoTokenizer
 from Scoring.utils_ranking_model import collate_batch, RankingDataset
-from huggingface_hub import hf_hub_url, cached_download
+from huggingface_hub import hf_hub_url, cached_download, hf_hub_download
 import joblib
 
 
 class FacetRanker(nn.Module):
     def __init__(self,
-                 model_path=None,
+                 model_path="umass/roberta-base-mimics-facet-reranker",
                  model_type="roberta-base",
              use_gpu=True,
                  parallel=False,
@@ -38,7 +38,8 @@ class FacetRanker(nn.Module):
         if parallel:
             self.bert = DataParallel(self.bert)
         if model_path is not None:
-            sdict = torch.load(os.path.join(model_path, "model.state_dict"), map_location=lambda storage, loc: storage)
+            model_path = hf_hub_download(repo_id=model_path, filename="model.state_dict")
+            sdict = torch.load(model_path, map_location=lambda storage, loc: storage)
             self.load_state_dict(sdict, strict=False)
         self.device = torch.device("cuda") if use_gpu else torch.device("cpu")
         self.to(self.device)
@@ -58,8 +59,8 @@ class FacetRanker(nn.Module):
         return loss
 
     def forward(self, input_ids, attention_mask):
-        input_ids = input_ids.to("cuda")
-        attention_mask = attention_mask.to("cuda")
+        input_ids = input_ids.to(self.device)
+        attention_mask = attention_mask.to(self.device)
         for x in range(len(input_ids)):
             if(len(input_ids[x])!=512 or len(attention_mask[x])!=512):
                 logging.info("the length is not equal to 512 of the input ids or the attention mask in the foreward function {} {}".format(len(input_ids),len(attention_mask)))
@@ -85,7 +86,7 @@ class FacetRanker(nn.Module):
 
     def load_model(self, sdict):
         self.load_state_dict(sdict)
-        self.to("cuda")
+        self.to(self.device)
 
     def save_model(self, output_path):
         model_name = 'model.state_dict'

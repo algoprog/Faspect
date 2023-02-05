@@ -99,13 +99,12 @@ class Faspect:
         self.unsupervised_extractor = UnsupervisedFacetExtractor()
 
         self.ranker = FacetDiversifier(model_name="algoprog/mimics-query-facet-encoder-mpnet-base")
-        self.threshold_model = FacetRanker(model_path="models/Scoring/weights_ranker_5",
+        self.threshold_model = FacetRanker(model_path="umass/roberta-base-mimics-facet-reranker",
                         model_type="distilroberta-base",
                         use_gpu=True,
-                        parallel=True,
-                        max_seq_length=512)
+                        parallel=True,max_seq_length=512)
         self.clustering_model = Clustering('umass/mpnet-base-mimics-query-facet-encoder')
-        self.clarifying_question_model = Clarifying_question("Clarifying_questions/Models/facebook-bart-large.ckpt")
+        self.clarifying_question_model = Clarifying_question("umass/bart-base-mimics-question-generation")
 
         logging.info("Finished loading.")
 
@@ -148,8 +147,8 @@ class Faspect:
         elif aggregation == "rank":
             facets = self.ranker.maximal_marginal_relevance(query, facets, lamda=1.0)
         
-        elif aggregation == "threshold":
-            facets = threshold(self.threshold_model,query,facets,docs)
+        # elif aggregation == "threshold":
+        #     facets = threshold(self.threshold_model,query,facets,docs)
 
         facets = [f.lower() for f in facets]
         facets = remove_duplicates(facets)

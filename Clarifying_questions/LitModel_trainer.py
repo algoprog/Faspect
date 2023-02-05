@@ -27,7 +27,7 @@ class LitModel(pl.LightningModule):
         # self.freeze_encoder = freeze_encoder
         # self.freeze_embeds_ = freeze_embeds
         self.save_hyperparameters(hparams)
-
+       
         #.get_encoder just converts the text to numbers
 
         if self.hparams.freeze_encoder:
@@ -100,8 +100,8 @@ class LitModel(pl.LightningModule):
     def generate_text(self, text, eval_beams, early_stopping = True, max_len = 40):
         ''' Function to generate text '''
         generated_ids = self.model.generate(
-            input_ids= text["input_ids"].to('cuda'),
-            attention_mask=text["attention_mask"].to('cuda'),
+            input_ids= text["input_ids"].to(torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")),
+            attention_mask=text["attention_mask"].to(torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")),
             use_cache=True,
             decoder_start_token_id = self.tokenizer.pad_token_id,
             num_beams= eval_beams,

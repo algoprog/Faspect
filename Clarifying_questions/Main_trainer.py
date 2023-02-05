@@ -26,11 +26,12 @@ torch.cuda.empty_cache()
 
 bertscore = load("bertscore")
 
-model_name = "facebook/bart-large"
-model_path = "Models/facebook-bart-large.ckpt"
+# model_name = "facebook/bart-large"
+# model_path = "Models/facebook-bart-large.ckpt"
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def generate_prediction(seed_line, model_):
   # Put the model on eval mode
-  model_.to("cuda")
+  model_.to(device)
   model_.eval()
   
   prompt_line_tokens = tokenizer(seed_line, max_length = 192, return_tensors = "pt", padding=True,truncation = True)
