@@ -4,9 +4,18 @@ from bert_score import score
 from nltk.translate.bleu_score import sentence_bleu
 
 
-def best_bleu_cand(groundtruth, candidate):
-    assert len(groundtruth) >= len(candidate)
-    all_permutations = list(itertools.permutations(candidate))
+def process_inputs(groundtruth, cand):
+    # for evaluation we make sure both sets have 5 elements
+    while len(groundtruth) < 5:
+        groundtruth.append('')
+    while len(cand) < 5:
+        cand.append('')
+    return groundtruth[:5], cand[:5]
+
+
+def best_bleu_cand(groundtruth, cand):
+    groundtruth, cand = process_inputs(groundtruth, cand)
+    all_permutations = list(itertools.permutations(cand))
     max_bleu = 0.
     best_cand = all_permutations[0]
     for cand in all_permutations:
@@ -21,6 +30,7 @@ def best_bleu_cand(groundtruth, candidate):
 
 def eval_bleu(groundtruth, cand):
     # Calculates the SET BLEU metrics, for 1-gram, 2-gram, 3-gram and 4-gram overlaps
+    groundtruth, cand = process_inputs(groundtruth, cand)
     best_cand = best_bleu_cand(groundtruth, cand)
     bleu = [0., 0., 0., 0.]
     bleu_weights = [[1, 0, 0, 0], [0.5, 0.5, 0, 0], [0.33, 0.33, 0.33, 0], [0.25, 0.25, 0.25, 0.25]]
@@ -32,6 +42,7 @@ def eval_bleu(groundtruth, cand):
 
 def bertscore(groundtruth, cand):
     # Calculates the Set BERT-Score metrics for Precision, Recall & F1
+    groundtruth, cand = process_inputs(groundtruth, cand)
     best_cand = best_bleu_cand(groundtruth, cand)
     (P, R, F), hashname = score(best_cand, groundtruth, lang="en", return_hash=True, device="cuda:0")
     return P.mean().item(), R.mean().item(), F.mean().item()
@@ -39,6 +50,7 @@ def bertscore(groundtruth, cand):
 
 def exact_match(groundtruth, cand):
     # Calculates the exact match Precision, Recall & F1
+    groundtruth, cand = process_inputs(groundtruth, cand)
     c = 0.
     for x in cand:
         if x != '' and x in groundtruth:
@@ -51,6 +63,7 @@ def exact_match(groundtruth, cand):
 
 def term_match(groundtruth, cand):
     # Calculates the term overlap Precision, Recall & F1
+    groundtruth, cand = process_inputs(groundtruth, cand)
     gt_terms = set([])
     for x in groundtruth:
         if x == '':
