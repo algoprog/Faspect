@@ -9,7 +9,7 @@ sentence_transformers==2.2.0
 simpletransformers==0.62.4
 seqeval==1.2.2
 numpy==1.21.2
-torch==1.11.0
+torch==1.7.0
 dataclasses==0.6
 packaging==21.0
 beautifulsoup4==4.10.0
